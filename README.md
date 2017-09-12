@@ -1,0 +1,1 @@
+[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=59b856d880aaee0001523db3&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/59b856d880aaee0001523db3/build/latest?branch=develop)
