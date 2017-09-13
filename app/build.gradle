@@ -27,6 +27,8 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${versions.support_library}"
     compile "com.android.support.constraint:constraint-layout:${versions.constraint_layout}"
 
+    compile "com.squareup.picasso:picasso:${versions.picasso}"
+
     compile "com.jakewharton:butterknife:${versions.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"
 

@@ -1,6 +1,7 @@
 package com.robotnec.reddit.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -15,7 +16,7 @@ import butterknife.BindView;
 public class RedditActivity extends BasePresenterActivity<FeedPresenter, FeedView> implements FeedView {
 
     @BindView(R.id.feed)
-    RecyclerView feed;
+    RecyclerView feedRecycler;
 
     private FeedAdapter feedAdapter;
 
@@ -23,8 +24,12 @@ public class RedditActivity extends BasePresenterActivity<FeedPresenter, FeedVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         feedAdapter = new FeedAdapter(this);
-        feed.setLayoutManager(new LinearLayoutManager(this));
-        feed.setAdapter(feedAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        feedRecycler.setLayoutManager(layoutManager);
+        feedRecycler.setAdapter(feedAdapter);
+        DividerItemDecoration dividerDecoration =
+                new DividerItemDecoration(feedRecycler.getContext(), layoutManager.getOrientation());
+        feedRecycler.addItemDecoration(dividerDecoration);
     }
 
     @Override

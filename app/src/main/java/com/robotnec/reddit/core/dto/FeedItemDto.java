@@ -10,7 +10,18 @@ public class FeedItemDto {
     @SerializedName("id")
     private String id;
 
+    @SerializedName("thumbnail")
+    private String thumbnail;
+
     public String getTitle() {
         return title;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public String getId() {
+        return id;
     }
 }
