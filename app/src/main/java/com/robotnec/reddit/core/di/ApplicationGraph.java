@@ -2,6 +2,7 @@ package com.robotnec.reddit.core.di;
 
 import android.content.Context;
 
+import com.robotnec.reddit.core.di.module.AndroidModule;
 import com.robotnec.reddit.core.di.module.ServiceModule;
 
 public class ApplicationGraph {
@@ -16,6 +17,7 @@ public class ApplicationGraph {
         return DaggerApplicationComponent
                 .builder()
                 .serviceModule(new ServiceModule())
+                .androidModule(new AndroidModule(context))
                 .build();
     }
 }

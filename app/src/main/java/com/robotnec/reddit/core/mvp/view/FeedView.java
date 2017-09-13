@@ -1,9 +1,7 @@
 package com.robotnec.reddit.core.mvp.view;
 
-import com.robotnec.reddit.core.model.FeedItem;
-
-import java.util.List;
+import com.robotnec.reddit.core.domain.TopFeed;
 
 public interface FeedView extends View {
-    void displayFeed(List<FeedItem> feed);
+    void displayFeed(TopFeed feed);
 }

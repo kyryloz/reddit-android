@@ -5,12 +5,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.robotnec.reddit.R;
-import com.robotnec.reddit.core.model.FeedItem;
+import com.robotnec.reddit.core.domain.TopFeed;
 import com.robotnec.reddit.core.mvp.presenter.FeedPresenter;
 import com.robotnec.reddit.core.mvp.view.FeedView;
 import com.robotnec.reddit.ui.adapter.FeedAdapter;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -40,7 +38,7 @@ public class RedditActivity extends BasePresenterActivity<FeedPresenter, FeedVie
     }
 
     @Override
-    public void displayFeed(List<FeedItem> feed) {
-        feedAdapter.setItems(feed);
+    public void displayFeed(TopFeed feed) {
+        feedAdapter.setItems(feed.getFeedItems());
     }
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.robotnec.reddit.R;
-import com.robotnec.reddit.core.model.FeedItem;
+import com.robotnec.reddit.core.dto.FeedItemDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +19,17 @@ import butterknife.ButterKnife;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private final LayoutInflater inflater;
-    private final List<FeedItem> mItems;
+    private final List<FeedItemDto> mItems;
 
     public FeedAdapter(Context context) {
         mItems = new ArrayList<>();
         inflater = LayoutInflater.from(context);
-        setHasStableIds(true);
     }
 
-    public void setItems(List<FeedItem> items) {
+    public void setItems(List<FeedItemDto> items) {
         mItems.clear();
         mItems.addAll(items);
         notifyDataSetChanged();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return mItems.get(position).getId();
     }
 
     @Override
@@ -45,7 +39,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.text.setText(mItems.get(position).getText());
+        holder.text.setText(mItems.get(position).getTitle());
     }
 
     @Override
