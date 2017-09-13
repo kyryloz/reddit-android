@@ -31,9 +31,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         picasso = Picasso.with(context);
     }
 
-    public void setItems(List<FeedItemDto> items) {
+    public void setItems(List<FeedItemDto> newItems) {
         items.clear();
-        items.addAll(items);
+        items.addAll(newItems);
         notifyDataSetChanged();
     }
 
