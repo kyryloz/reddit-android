@@ -27,13 +27,6 @@ public class RedditActivity extends BasePresenterActivity<FeedPresenter, FeedVie
         feedAdapter = new FeedAdapter(this);
         feed.setLayoutManager(new LinearLayoutManager(this));
         feed.setAdapter(feedAdapter);
-        presenter.subscribeFeed();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.unsubscribeFeed();
     }
 
     @Override

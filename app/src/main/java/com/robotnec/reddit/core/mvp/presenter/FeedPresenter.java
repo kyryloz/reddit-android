@@ -27,14 +27,16 @@ public class FeedPresenter extends Presenter<FeedView> {
         applicationComponent.inject(this);
     }
 
-    public void subscribeFeed() {
+    @Override
+    public void onViewStart() {
         compositeDisposable.add(feedService.getFeed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view::displayFeed));
     }
 
-    public void unsubscribeFeed() {
+    @Override
+    public void onViewDestroy() {
         compositeDisposable.dispose();
     }
 }

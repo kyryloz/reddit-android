@@ -26,6 +26,18 @@ public abstract class BasePresenterActivity<P extends Presenter<V>, V extends Vi
         presenter.injectComponent(component);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.onViewStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onViewDestroy();
+    }
+
     protected abstract P createPresenter();
 
     protected abstract int getLayoutId();

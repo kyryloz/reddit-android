@@ -13,4 +13,8 @@ public abstract class Presenter<T extends View> {
     }
 
     public abstract void injectComponent(ApplicationComponent applicationComponent);
+
+    public abstract void onViewStart();
+
+    public abstract void onViewDestroy();
 }
