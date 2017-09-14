@@ -27,15 +27,9 @@ public abstract class BasePresenterActivity<P extends Presenter<V>, V extends Vi
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        presenter.onViewStart();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onViewDestroy();
+        presenter.dispose();
     }
 
     protected abstract P createPresenter();

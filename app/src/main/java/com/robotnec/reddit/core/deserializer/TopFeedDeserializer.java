@@ -14,11 +14,11 @@ import com.robotnec.reddit.core.dto.FeedItemDto;
 
 import java.lang.reflect.Type;
 
-public class RedditTopFeedDeserializer implements JsonDeserializer<TopFeed> {
+public class TopFeedDeserializer implements JsonDeserializer<TopFeed> {
 
     private final Gson gson;
 
-    public RedditTopFeedDeserializer() {
+    public TopFeedDeserializer() {
         gson = new GsonBuilder().create();
     }
 

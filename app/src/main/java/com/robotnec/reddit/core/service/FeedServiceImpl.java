@@ -4,8 +4,9 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.robotnec.reddit.core.deserializer.RedditTopFeedDeserializer;
+import com.robotnec.reddit.core.deserializer.TopFeedDeserializer;
 import com.robotnec.reddit.core.domain.TopFeed;
+import com.robotnec.reddit.core.support.Result;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,17 +21,22 @@ public class FeedServiceImpl implements FeedService {
 
     public FeedServiceImpl(Context context) {
         this.context = context;
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(TopFeed.class, new RedditTopFeedDeserializer());
-        gson = gsonBuilder.create();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(TopFeed.class, new TopFeedDeserializer())
+                .create();
     }
 
     @Override
-    public Observable<TopFeed> getFeed() {
+    public Observable<Result<TopFeed>> getFeed() {
         return Observable.create(emitter -> {
+            emitter.onNext(Result.inProgress());
+
+            Thread.sleep(3000);
+
             try (InputStream in = context.getAssets().open("top.json")) {
                 Reader reader = new InputStreamReader(in, "UTF-8");
-                emitter.onNext(gson.fromJson(reader, TopFeed.class));
+                TopFeed feed = gson.fromJson(reader, TopFeed.class);
+                emitter.onNext(Result.success(feed));
                 emitter.onComplete();
             }
         });
