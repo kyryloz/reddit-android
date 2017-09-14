@@ -2,7 +2,7 @@ package com.robotnec.reddit.core.di;
 
 import com.robotnec.reddit.core.di.module.AndroidModule;
 import com.robotnec.reddit.core.di.module.ServiceModule;
-import com.robotnec.reddit.core.mvp.presenter.FeedPresenter;
+import com.robotnec.reddit.core.mvp.presenter.TopFeedPresenter;
 
 import javax.inject.Singleton;
 
@@ -14,5 +14,5 @@ import dagger.Component;
         ServiceModule.class
 })
 public interface ApplicationComponent {
-    void inject(FeedPresenter presenter);
+    void inject(TopFeedPresenter presenter);
 }

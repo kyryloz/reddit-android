@@ -1,8 +1,8 @@
 package com.robotnec.reddit.core.mvp.view;
 
-import com.robotnec.reddit.core.domain.TopFeed;
+import com.robotnec.reddit.core.mvp.model.TopFeed;
 
-public interface FeedView extends View {
+public interface TopFeedView extends View {
     void displayFeed(TopFeed feed);
 
     void displayProgress(boolean inProgress);

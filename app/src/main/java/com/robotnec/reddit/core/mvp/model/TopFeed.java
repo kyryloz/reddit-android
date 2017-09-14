@@ -1,9 +1,9 @@
-package com.robotnec.reddit.core.domain;
+package com.robotnec.reddit.core.mvp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.robotnec.reddit.core.dto.FeedItemDto;
+import com.robotnec.reddit.core.web.dto.FeedItemDto;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.robotnec.reddit.R;
-import com.robotnec.reddit.core.dto.FeedItemDto;
+import com.robotnec.reddit.core.web.dto.FeedItemDto;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
+public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHolder> {
 
     private final LayoutInflater inflater;
     private final List<FeedItemDto> items;
     private final Picasso picasso;
 
-    public FeedAdapter(Context context) {
+    public TopFeedAdapter(Context context) {
         items = new ArrayList<>();
         inflater = LayoutInflater.from(context);
         picasso = Picasso.with(context);

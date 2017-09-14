@@ -1,6 +1,6 @@
 package com.robotnec.reddit.core.service;
 
-import com.robotnec.reddit.core.domain.TopFeed;
+import com.robotnec.reddit.core.mvp.model.TopFeed;
 import com.robotnec.reddit.core.support.Result;
 
 import io.reactivex.Observable;

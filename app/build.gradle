@@ -26,6 +26,7 @@ android {
 dependencies {
     compile "com.android.support:appcompat-v7:${versions.support_library}"
     compile "com.android.support:recyclerview-v7:${versions.support_library}"
+    compile "com.android.support:design:${versions.support_library}"
 
     compile "com.squareup.picasso:picasso:${versions.picasso}"
 
@@ -36,6 +37,8 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:${versions.dagger}"
 
     compile "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    compile "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}"
+    compile "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
     compile "com.google.code.gson:gson:${versions.gson}"
 
     compile "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"

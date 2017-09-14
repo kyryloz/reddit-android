@@ -1,4 +1,4 @@
-package com.robotnec.reddit.core.dto;
+package com.robotnec.reddit.core.web.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;

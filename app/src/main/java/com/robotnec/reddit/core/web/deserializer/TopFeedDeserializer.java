@@ -1,4 +1,4 @@
-package com.robotnec.reddit.core.deserializer;
+package com.robotnec.reddit.core.web.deserializer;
 
 import com.annimon.stream.Stream;
 import com.google.gson.Gson;
@@ -9,8 +9,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
-import com.robotnec.reddit.core.domain.TopFeed;
-import com.robotnec.reddit.core.dto.FeedItemDto;
+import com.robotnec.reddit.core.mvp.model.TopFeed;
+import com.robotnec.reddit.core.web.dto.FeedItemDto;
 
 import java.lang.reflect.Type;
 
