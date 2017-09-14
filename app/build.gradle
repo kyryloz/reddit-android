@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
@@ -17,30 +18,30 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:${versions.support_library}"
-    implementation "com.android.support:recyclerview-v7:${versions.support_library}"
+    compile "com.android.support:appcompat-v7:${versions.support_library}"
+    compile "com.android.support:recyclerview-v7:${versions.support_library}"
 
-    implementation "com.squareup.picasso:picasso:${versions.picasso}"
+    compile "com.squareup.picasso:picasso:${versions.picasso}"
 
-    implementation "com.jakewharton:butterknife:${versions.butterknife}"
+    compile "com.jakewharton:butterknife:${versions.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"
 
-    implementation "com.google.dagger:dagger:${versions.dagger}"
+    compile "com.google.dagger:dagger:${versions.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versions.dagger}"
 
-    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
-    implementation "com.google.code.gson:gson:${versions.gson}"
+    compile "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    compile "com.google.code.gson:gson:${versions.gson}"
 
-    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
-    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
+    compile "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
+    compile "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
 
-    implementation "com.annimon:stream:${versions.stream}"
+    compile "com.annimon:stream:${versions.stream}"
 
-    testImplementation "junit:junit:${versions.junit}"
+    testCompile "junit:junit:${versions.junit}"
 }
