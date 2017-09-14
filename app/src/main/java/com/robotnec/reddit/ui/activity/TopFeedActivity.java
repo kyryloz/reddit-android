@@ -1,5 +1,7 @@
 package com.robotnec.reddit.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,7 +34,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        feedAdapter = new TopFeedAdapter(this);
+        feedAdapter = new TopFeedAdapter(this, this::displayFullSizeImage);
         feedRecycler.setAdapter(feedAdapter);
         feedRecycler.setLayoutManager(new LinearLayoutManager(this));
 
@@ -80,5 +82,11 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     @Override
     public void showError(String errorMessage) {
         Snackbar.make(feedRecycler, errorMessage, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void displayFullSizeImage(String fullImageUrl) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(fullImageUrl));
+        startActivity(intent);
     }
 }

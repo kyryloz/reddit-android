@@ -11,6 +11,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 import com.robotnec.reddit.core.mvp.model.TopFeed;
 import com.robotnec.reddit.core.web.dto.FeedItemDto;
+import com.robotnec.reddit.core.web.dto.ImageDto;
 
 import java.lang.reflect.Type;
 
@@ -19,7 +20,9 @@ public class TopFeedDeserializer implements JsonDeserializer<TopFeed> {
     private final Gson gson;
 
     public TopFeedDeserializer() {
-        gson = new GsonBuilder().create();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(ImageDto.class, new ImagePreviewDeserializer())
+                .create();
     }
 
     @Override

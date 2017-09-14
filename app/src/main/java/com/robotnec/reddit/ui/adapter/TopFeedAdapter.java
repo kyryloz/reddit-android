@@ -24,11 +24,14 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
     private final LayoutInflater inflater;
     private final List<FeedItemDto> items;
     private final Picasso picasso;
+    private final OnImageThumbnailClickListener thumbnailClickListener;
 
-    public TopFeedAdapter(Context context) {
+    public TopFeedAdapter(Context context, OnImageThumbnailClickListener listener) {
+        thumbnailClickListener = listener;
         items = new ArrayList<>();
         inflater = LayoutInflater.from(context);
         picasso = Picasso.with(context);
+        picasso.setLoggingEnabled(true);
     }
 
     public void setItems(List<FeedItemDto> newItems) {
@@ -47,7 +50,7 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
         FeedItemDto feedItem = items.get(position);
         holder.text.setText(feedItem.getTitle());
 
-        String thumbnail = feedItem.getThumbnail();
+        String thumbnail = feedItem.getImageThumbnail();
 
         holder.thumbnail.setVisibility(TextUtils.isEmpty(thumbnail) ? View.GONE : View.VISIBLE);
 
@@ -57,6 +60,12 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
                     .fit()
                     .into(holder.thumbnail);
         }
+
+        holder.thumbnail.setOnClickListener(view -> {
+            if (thumbnailClickListener != null) {
+                thumbnailClickListener.onClick(feedItem.getImageFull());
+            }
+        });
     }
 
     @Override
@@ -76,5 +85,9 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface OnImageThumbnailClickListener {
+        void onClick(String fullImageUrl);
     }
 }
