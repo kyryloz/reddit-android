@@ -19,6 +19,15 @@ public class FeedItemDto implements Parcelable {
     @SerializedName("preview")
     private ImageDto imageFull;
 
+    @SerializedName("author")
+    private String author;
+
+    @SerializedName("num_comments")
+    private int numberOfComments;
+
+    @SerializedName("created_utc")
+    private long createdTimestamp;
+
     public String getTitle() {
         return title;
     }
@@ -35,6 +44,18 @@ public class FeedItemDto implements Parcelable {
         return id;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public int getNumberOfComments() {
+        return numberOfComments;
+    }
+
+    public long getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -46,6 +67,9 @@ public class FeedItemDto implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.imageThumbnail);
         dest.writeParcelable(this.imageFull, flags);
+        dest.writeString(this.author);
+        dest.writeInt(this.numberOfComments);
+        dest.writeLong(this.createdTimestamp);
     }
 
     private FeedItemDto(Parcel in) {
@@ -53,6 +77,9 @@ public class FeedItemDto implements Parcelable {
         this.id = in.readString();
         this.imageThumbnail = in.readString();
         this.imageFull = in.readParcelable(ImageDto.class.getClassLoader());
+        this.author = in.readString();
+        this.numberOfComments = in.readInt();
+        this.createdTimestamp = in.readLong();
     }
 
     public static final Creator<FeedItemDto> CREATOR = new Creator<FeedItemDto>() {

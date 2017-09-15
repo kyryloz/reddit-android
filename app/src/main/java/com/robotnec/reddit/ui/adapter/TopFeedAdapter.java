@@ -1,8 +1,10 @@
 package com.robotnec.reddit.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.robotnec.reddit.core.web.dto.FeedItemDto;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,9 +27,11 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
     private final LayoutInflater inflater;
     private final List<FeedItemDto> items;
     private final Picasso picasso;
+    private final Context context;
     private final OnImageThumbnailClickListener thumbnailClickListener;
 
     public TopFeedAdapter(Context context, OnImageThumbnailClickListener listener) {
+        this.context = context;
         thumbnailClickListener = listener;
         items = new ArrayList<>();
         inflater = LayoutInflater.from(context);
@@ -48,10 +53,12 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         FeedItemDto feedItem = items.get(position);
-        holder.text.setText(feedItem.getTitle());
+
+        holder.title.setText(feedItem.getTitle());
+        holder.caption.setText(createCaptionString(feedItem));
+        holder.numberOfComments.setText(createNumberOfCommentsString(feedItem));
 
         String thumbnail = feedItem.getImageThumbnail();
-
         holder.thumbnail.setVisibility(TextUtils.isEmpty(thumbnail) ? View.GONE : View.VISIBLE);
 
         if (!TextUtils.isEmpty(thumbnail)) {
@@ -73,13 +80,38 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
         return items.size();
     }
 
+    @NonNull
+    private String createCaptionString(FeedItemDto feedItem) {
+        String relativeDate = DateUtils.getRelativeTimeSpanString(
+                feedItem.getCreatedTimestamp() * 1000,
+                new Date().getTime(),
+                DateUtils.MINUTE_IN_MILLIS).toString();
+        return context.getString(R.string.caption_format,
+                relativeDate, feedItem.getAuthor());
+    }
+
+    @NonNull
+    private String createNumberOfCommentsString(FeedItemDto feedItem) {
+        int numberOfComments = feedItem.getNumberOfComments();
+        return context.getResources().getQuantityString(
+                R.plurals.comments_format,
+                numberOfComments,
+                numberOfComments);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.thumbnail)
         ImageView thumbnail;
 
-        @BindView(R.id.text)
-        TextView text;
+        @BindView(R.id.title)
+        TextView title;
+
+        @BindView(R.id.numberOfComments)
+        TextView numberOfComments;
+
+        @BindView(R.id.caption)
+        TextView caption;
 
         ViewHolder(View itemView) {
             super(itemView);
