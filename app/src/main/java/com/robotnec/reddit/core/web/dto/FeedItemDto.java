@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+// TODO image is "self"
 public class FeedItemDto implements Parcelable {
 
     @SerializedName("title")

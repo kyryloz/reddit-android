@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.annimon.stream.Objects;
 
+// TODO move to model
 public class Result<T> {
     private final T result;
     private final boolean inProgress;

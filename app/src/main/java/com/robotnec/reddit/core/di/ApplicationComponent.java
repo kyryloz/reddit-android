@@ -12,6 +12,7 @@ import dagger.Component;
 @Component(modules = {
         AndroidModule.class,
         ServiceModule.class
+        // TODO api module
 })
 public interface ApplicationComponent {
     void inject(TopFeedPresenter presenter);

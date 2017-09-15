@@ -17,6 +17,7 @@ public class FeedServiceImpl implements FeedService {
         api = RedditClient.create(context).getApi();
     }
 
+    // TODO pagination
     @Override
     public Observable<Result<TopFeed>> getFeed() {
         return api.getTopFeed(50)
