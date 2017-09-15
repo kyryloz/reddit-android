@@ -42,7 +42,7 @@ public class TopFeedPresenter extends Presenter<TopFeedView> {
     }
 
     private void processTopFeedResult(Result<TopFeed> result) {
-        view.displayProgress(result.isInProgress());
+        view.showProgress(result.isInProgress());
         if (!result.isInProgress()) {
             if (result.isSuccess()) {
                 view.displayFeed(result.getResult());

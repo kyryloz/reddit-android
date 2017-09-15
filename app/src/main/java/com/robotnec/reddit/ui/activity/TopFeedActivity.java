@@ -75,7 +75,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     }
 
     @Override
-    public void displayProgress(boolean inProgress) {
+    public void showProgress(boolean inProgress) {
         swipeRefresh.setRefreshing(inProgress);
     }
 
