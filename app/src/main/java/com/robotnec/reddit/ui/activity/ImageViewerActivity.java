@@ -3,12 +3,17 @@ package com.robotnec.reddit.ui.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
@@ -18,6 +23,11 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
 import com.robotnec.reddit.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +44,7 @@ public class ImageViewerActivity extends AppCompatActivity {
     ViewGroup rootView;
 
     private String imageUrl;
+    private Target target;
 
     public static Intent createIntent(Context context, String imageUrl) {
         Intent intent = new Intent(context, ImageViewerActivity.class);
@@ -77,6 +88,50 @@ public class ImageViewerActivity extends AppCompatActivity {
     }
 
     private void saveImage() {
-        // TODO
+        target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                saveBitmap(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        Picasso.with(this)
+                .load(imageUrl)
+                .into(target);
+    }
+
+    private void saveBitmap(Bitmap bitmap) {
+        File imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        File imageFile = new File(imagesDir, "reddit-image.png");
+        FileOutputStream outStream = null;
+        try {
+            outStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (outStream != null) {
+                try {
+                    outStream.flush();
+                    outStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        MediaScannerConnection.scanFile(this,
+                new String[]{imageFile.toString()}, null,
+                (path, uri) -> Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show());
     }
 }
