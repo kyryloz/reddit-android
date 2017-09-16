@@ -32,11 +32,6 @@ public class PageImpl<T extends Listing> implements Page<T> {
     }
 
     @Override
-    public boolean isFirst() {
-        return pageable.getPageNumber() == 0;
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }

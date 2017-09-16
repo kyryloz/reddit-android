@@ -10,6 +10,4 @@ public interface Page<T extends Listing> extends Parcelable {
     boolean hasNext();
 
     Pageable nextPageable();
-
-    boolean isFirst();
 }

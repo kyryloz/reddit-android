@@ -29,9 +29,6 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
 
     private static final String KEY_TOP_FEED = "key_top_feed";
 
-    @BindView(R.id.swipeRefresh)
-    SwipeRefreshLayout swipeRefresh;
-
     @BindView(R.id.feedRecycler)
     RecyclerView feedRecycler;
 
@@ -55,8 +52,6 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
             }
         });
 
-        swipeRefresh.setOnRefreshListener(() -> presenter.requestTopFeed(PageRequest.first()));
-
         feedPages = Optional.ofNullable(savedInstanceState)
                 .map(bundle -> bundle.<Page<TopFeedListing>>getParcelableArrayList(KEY_TOP_FEED))
                 .orElse(new ArrayList<>());
@@ -71,7 +66,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     @Override
     protected void onStart() {
         super.onStart();
-        feedAdapter.setItems(Stream.of(feedPages)
+        feedAdapter.addItems(Stream.of(feedPages)
                 .map(Page::getListing)
                 .flatMap(listing -> Stream.of(listing.getItems()))
                 .toList());
@@ -94,17 +89,13 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     @Override
     public void displayFeedPage(Page<TopFeedListing> feedPage) {
         List<FeedItemDto> items = feedPage.getListing().getItems();
-        if (feedPage.isFirst()) {
-            feedAdapter.setItems(items);
-        } else {
-            feedAdapter.addItems(items);
-        }
+        feedAdapter.addItems(items);
         feedPages.add(feedPage);
     }
 
     @Override
     public void showProgress(boolean inProgress) {
-        swipeRefresh.setRefreshing(inProgress);
+        feedAdapter.setLoading(inProgress);
     }
 
     @Override

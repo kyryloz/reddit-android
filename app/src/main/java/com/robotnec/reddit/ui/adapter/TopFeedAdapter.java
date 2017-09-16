@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.annimon.stream.Stream;
 import com.robotnec.reddit.R;
 import com.robotnec.reddit.core.web.dto.FeedItemDto;
 import com.squareup.picasso.Picasso;
@@ -22,13 +23,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHolder> {
+public class TopFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_PROGRESS_BAR = 1;
 
     private final LayoutInflater inflater;
-    private final List<FeedItemDto> items;
+    private final List<AdapterItem> items;
     private final Picasso picasso;
     private final Context context;
     private final OnImageThumbnailClickListener thumbnailClickListener;
+    private final AdapterItem progressBarItem;
 
     public TopFeedAdapter(Context context, OnImageThumbnailClickListener listener) {
         this.context = context;
@@ -36,43 +41,67 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
         items = new ArrayList<>();
         inflater = LayoutInflater.from(context);
         picasso = Picasso.with(context);
-    }
-
-    public void setItems(List<FeedItemDto> newItems) {
-        items.clear();
-        items.addAll(newItems);
-        notifyDataSetChanged();
+        progressBarItem = new AdapterItem(null, TYPE_PROGRESS_BAR);
     }
 
     public void addItems(List<FeedItemDto> nextItems) {
-        items.addAll(nextItems);
+        items.addAll(Stream.of(nextItems)
+                .map(feedItem -> new AdapterItem(feedItem, TYPE_ITEM))
+                .toList());
         notifyDataSetChanged();
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflater.inflate(R.layout.item_feed, parent, false));
+    public void setLoading(boolean loading) {
+        if (loading) {
+            items.add(progressBarItem);
+            notifyItemInserted(items.size());
+        } else {
+            items.remove(progressBarItem);
+            notifyItemRemoved(items.size());
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        FeedItemDto feedItem = items.get(position);
+    public int getItemViewType(int position) {
+        return items.get(position).type;
+    }
 
-        holder.title.setText(feedItem.getTitle());
-        holder.caption.setText(createCaptionString(feedItem));
-        holder.numberOfComments.setText(createNumberOfCommentsString(feedItem));
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_ITEM:
+                return new ItemViewHolder(inflater.inflate(R.layout.item_feed, parent, false));
+            case TYPE_PROGRESS_BAR:
+                return new ProgressBarViewHolder(inflater.inflate(R.layout.item_progress_bar, parent, false));
+            default:
+                throw new IllegalArgumentException("Unknown view type: " + viewType);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        AdapterItem adapterItem = items.get(position);
+        if (adapterItem.type == TYPE_PROGRESS_BAR) {
+            return;
+        }
+
+        FeedItemDto feedItem = adapterItem.feedItem;
+        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+        itemViewHolder.title.setText(feedItem.getTitle());
+        itemViewHolder.caption.setText(createCaptionString(feedItem));
+        itemViewHolder.numberOfComments.setText(createNumberOfCommentsString(feedItem));
 
         String thumbnail = feedItem.getImageThumbnail();
-        holder.thumbnail.setVisibility(TextUtils.isEmpty(thumbnail) ? View.GONE : View.VISIBLE);
+        itemViewHolder.thumbnail.setVisibility(TextUtils.isEmpty(thumbnail) ? View.GONE : View.VISIBLE);
 
         if (!TextUtils.isEmpty(thumbnail)) {
             picasso.load(thumbnail)
                     .centerCrop()
                     .fit()
-                    .into(holder.thumbnail);
+                    .into(itemViewHolder.thumbnail);
         }
 
-        holder.thumbnail.setOnClickListener(view -> {
+        itemViewHolder.thumbnail.setOnClickListener(view -> {
             if (thumbnailClickListener != null) {
                 thumbnailClickListener.onClick(feedItem.getImageFull());
             }
@@ -103,7 +132,7 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
                 numberOfComments);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.thumbnail)
         ImageView thumbnail;
@@ -117,13 +146,30 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
         @BindView(R.id.caption)
         TextView caption;
 
-        ViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
+    private static class ProgressBarViewHolder extends RecyclerView.ViewHolder {
+
+        ProgressBarViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     public interface OnImageThumbnailClickListener {
         void onClick(String fullImageUrl);
+    }
+
+    private static class AdapterItem {
+        final FeedItemDto feedItem;
+        int type;
+
+        AdapterItem(FeedItemDto item, int type) {
+            this.feedItem = item;
+            this.type = type;
+        }
     }
 }
