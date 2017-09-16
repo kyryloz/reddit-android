@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.robotnec.reddit.core.mvp.model.TopFeed;
+import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.web.deserializer.TopFeedDeserializer;
 import com.robotnec.reddit.core.web.interceptor.NetworkAvailabilityInterceptor;
 
@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RedditClient {
     private static final String BASE_URL = "https://reddit.com";
     private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(TopFeed.class, new TopFeedDeserializer())
+            .registerTypeAdapter(TopFeedListing.class, new TopFeedDeserializer())
             .create();
 
     private final RedditApi mApi;

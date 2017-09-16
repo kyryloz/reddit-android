@@ -14,8 +14,11 @@ public class Result<T> {
         return new Result<>(Objects.requireNonNull(result), false, null);
     }
 
-    public static <T> Result<T> failed(String errorMessage) {
-        return new Result<>(null, false, errorMessage);
+    public static <T> Result<T> failed(Throwable throwable) {
+        if (throwable instanceof RuntimeException) {
+            throw (RuntimeException) throwable;
+        }
+        return new Result<>(null, false, throwable.getMessage());
     }
 
     public static <T> Result<T> inProgress() {

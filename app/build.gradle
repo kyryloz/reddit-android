@@ -46,5 +46,10 @@ dependencies {
 
     compile "com.annimon:stream:${versions.stream}"
 
+    compile "org.slf4j:slf4j-api:${versions.slf4j}"
+    compile("com.github.tony19:logback-android-classic:${versions.logback}") {
+        exclude group: 'com.google.android'
+    }
+
     testCompile "junit:junit:${versions.junit}"
 }

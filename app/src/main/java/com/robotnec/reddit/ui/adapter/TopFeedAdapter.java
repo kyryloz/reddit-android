@@ -36,7 +36,6 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
         items = new ArrayList<>();
         inflater = LayoutInflater.from(context);
         picasso = Picasso.with(context);
-        picasso.setLoggingEnabled(true);
     }
 
     public void setItems(List<FeedItemDto> newItems) {

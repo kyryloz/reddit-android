@@ -7,15 +7,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
-import com.robotnec.reddit.core.mvp.model.TopFeed;
+import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.web.dto.FeedItemDto;
 import com.robotnec.reddit.core.web.dto.ImageDto;
 
 import java.lang.reflect.Type;
 
-public class TopFeedDeserializer implements JsonDeserializer<TopFeed> {
+public class TopFeedDeserializer implements JsonDeserializer<TopFeedListing> {
 
     private final Gson gson;
 
@@ -26,18 +27,25 @@ public class TopFeedDeserializer implements JsonDeserializer<TopFeed> {
     }
 
     @Override
-    public TopFeed deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonArray jsonArray = json.getAsJsonObject()
-                .get("data")
+    public TopFeedListing deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        JsonObject data = json
                 .getAsJsonObject()
+                .get("data")
+                .getAsJsonObject();
+
+        JsonArray jsonArray = data
                 .get("children")
                 .getAsJsonArray();
 
+        JsonElement afterElement = data
+                .get("after");
+        String after = afterElement.isJsonNull() ? null : afterElement.getAsString();
+
         FeedItemData[] feedItems = gson.fromJson(jsonArray, FeedItemData[].class);
 
-        return new TopFeed(Stream.of(feedItems)
+        return new TopFeedListing(Stream.of(feedItems)
                 .map(item -> item.feedItem)
-                .toList());
+                .toList(), after);
     }
 
     private static class FeedItemData {

@@ -1,10 +1,12 @@
 package com.robotnec.reddit.core.mvp.presenter;
 
 import com.robotnec.reddit.core.di.ApplicationComponent;
-import com.robotnec.reddit.core.mvp.model.TopFeed;
+import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.mvp.view.TopFeedView;
 import com.robotnec.reddit.core.service.FeedService;
 import com.robotnec.reddit.core.support.Result;
+import com.robotnec.reddit.core.web.pagination.Page;
+import com.robotnec.reddit.core.web.pagination.Pageable;
 
 import javax.inject.Inject;
 
@@ -34,14 +36,14 @@ public class TopFeedPresenter extends Presenter<TopFeedView> {
         compositeDisposable.dispose();
     }
 
-    public void requestTopFeed() {
-        compositeDisposable.add(feedService.getFeed()
+    public void requestTopFeed(Pageable pageable) {
+        compositeDisposable.add(feedService.getFeed(pageable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::processTopFeedResult));
     }
 
-    private void processTopFeedResult(Result<TopFeed> result) {
+    private void processTopFeedResult(Result<Page<TopFeedListing>> result) {
         view.showProgress(result.isInProgress());
         if (!result.isInProgress()) {
             if (result.isSuccess()) {
