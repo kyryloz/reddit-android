@@ -44,6 +44,11 @@ public class TopFeedAdapter extends RecyclerView.Adapter<TopFeedAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public void addItems(List<FeedItemDto> nextItems) {
+        items.addAll(nextItems);
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(inflater.inflate(R.layout.item_feed, parent, false));

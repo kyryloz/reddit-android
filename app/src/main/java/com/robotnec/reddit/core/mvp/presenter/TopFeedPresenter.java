@@ -47,7 +47,7 @@ public class TopFeedPresenter extends Presenter<TopFeedView> {
         view.showProgress(result.isInProgress());
         if (!result.isInProgress()) {
             if (result.isSuccess()) {
-                view.displayFeed(result.getResult());
+                view.displayFeedPage(result.getResult());
             } else {
                 view.showError(result.getErrorMessage());
             }
