@@ -16,7 +16,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RedditClient {
-    private static final String BASE_URL = "https://reddit.com";
+    private static final String BASE_URL = "https://api.reddit.com";
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(TopFeedListing.class, new TopFeedDeserializer())
             .create();

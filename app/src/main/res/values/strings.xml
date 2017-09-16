@@ -2,6 +2,8 @@
     <string name="app_name">Reddit Client</string>
     <string name="no_connectivity_message">No internet connection</string>
     <string name="caption_format">Submitted %1$s by %2$s</string>
+    <string name="save_to_gallery">Save to gallery</string>
+    <string name="image_viewer_title">Image</string>
 
     <plurals name="comments_format">
         <item quantity="zero">No comments</item>

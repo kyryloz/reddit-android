@@ -8,10 +8,10 @@ import retrofit2.http.Query;
 
 public interface RedditApi {
 
-    int TOTAL_LISTING_SIZE = 10;
-    int PAGE_SIZE = 2;
+    int TOTAL_LISTING_SIZE = 50;
+    int PAGE_SIZE = 10;
 
-    @GET("top.json")
+    @GET("top")
     Observable<TopFeedListing> getTopFeed(@Query("limit") int limit,
                                           @Query("after") String after);
 }

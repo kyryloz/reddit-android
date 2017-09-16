@@ -32,12 +32,12 @@ public class TopFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final List<AdapterItem> items;
     private final Picasso picasso;
     private final Context context;
-    private final OnImageThumbnailClickListener thumbnailClickListener;
+    private final OnItemClickListener clickListener;
     private final AdapterItem progressBarItem;
 
-    public TopFeedAdapter(Context context, OnImageThumbnailClickListener listener) {
+    public TopFeedAdapter(Context context, OnItemClickListener listener) {
         this.context = context;
-        thumbnailClickListener = listener;
+        clickListener = listener;
         items = new ArrayList<>();
         inflater = LayoutInflater.from(context);
         picasso = Picasso.with(context);
@@ -101,9 +101,9 @@ public class TopFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .into(itemViewHolder.thumbnail);
         }
 
-        itemViewHolder.thumbnail.setOnClickListener(view -> {
-            if (thumbnailClickListener != null) {
-                thumbnailClickListener.onClick(feedItem.getImageFull());
+        itemViewHolder.itemView.setOnClickListener(view -> {
+            if (clickListener != null) {
+                clickListener.onClick(feedItem);
             }
         });
     }
@@ -159,8 +159,8 @@ public class TopFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public interface OnImageThumbnailClickListener {
-        void onClick(String fullImageUrl);
+    public interface OnItemClickListener {
+        void onClick(FeedItemDto feedItem);
     }
 
     private static class AdapterItem {
