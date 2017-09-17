@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -106,7 +107,10 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     }
 
     private void processFeedItemClick(FeedItemDto feedItem) {
-        startActivity(ImageViewerActivity.createIntent(this, feedItem.getImageFull()));
+        String imageUrl = feedItem.getImageFull();
+        if (!TextUtils.isEmpty(imageUrl)) {
+            startActivity(ImageViewerActivity.createIntent(this, imageUrl, feedItem.getTitle()));
+        }
     }
 
     private Optional<Page<TopFeedListing>> getLastLoadedPage() {

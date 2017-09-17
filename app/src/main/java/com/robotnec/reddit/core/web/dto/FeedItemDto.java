@@ -2,6 +2,7 @@ package com.robotnec.reddit.core.web.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -14,9 +15,11 @@ public class FeedItemDto implements Parcelable {
     private String id;
 
     @SerializedName("thumbnail")
+    @Nullable
     private ImageThumbnailDto imageThumbnail;
 
     @SerializedName("preview")
+    @Nullable
     private ImageDto imageFull;
 
     @SerializedName("author")
@@ -33,11 +36,11 @@ public class FeedItemDto implements Parcelable {
     }
 
     public String getImageThumbnail() {
-        return imageThumbnail.getUrl();
+        return imageThumbnail != null ? imageThumbnail.getUrl() : null;
     }
 
     public String getImageFull() {
-        return imageFull.getUrl();
+        return imageFull != null ? imageFull.getUrl() : null;
     }
 
     public String getId() {

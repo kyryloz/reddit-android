@@ -31,6 +31,7 @@ public class ImageViewerActivity extends BasePresenterActivity<ImageViewerPresen
         implements ImageViewerView {
 
     private static final String EXTRA_IMAGE_URL = "image_url";
+    private static final String EXTRA_TITLE = "title";
 
     @BindView(R.id.imageView)
     ImageView imageView;
@@ -46,18 +47,20 @@ public class ImageViewerActivity extends BasePresenterActivity<ImageViewerPresen
 
     private String imageUrl;
 
-    public static Intent createIntent(Context context, String imageUrl) {
+    public static Intent createIntent(Context context, String imageUrl, String title) {
         if (TextUtils.isEmpty(imageUrl)) {
             throw new IllegalArgumentException("imageUrl must not be empty");
         }
         Intent intent = new Intent(context, ImageViewerActivity.class);
         intent.putExtra(EXTRA_IMAGE_URL, imageUrl);
+        intent.putExtra(EXTRA_TITLE, title);
         return intent;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(getIntent().getStringExtra(EXTRA_TITLE));
         imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
         Picasso.with(this)
                 .load(imageUrl)
