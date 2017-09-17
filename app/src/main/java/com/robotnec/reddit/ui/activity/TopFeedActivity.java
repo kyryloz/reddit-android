@@ -57,25 +57,21 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
         feedPages = Optional.ofNullable(savedInstanceState)
                 .map(bundle -> bundle.<Page<TopFeedListing>>getParcelableArrayList(KEY_TOP_FEED))
                 .orElse(new ArrayList<>());
+
+        if (feedPages.isEmpty()) {
+            presenter.requestTopFeed(PageRequest.first());
+        } else {
+            feedAdapter.addItems(Stream.of(feedPages)
+                    .map(Page::getListing)
+                    .flatMap(listing -> Stream.of(listing.getItems()))
+                    .toList());
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(KEY_TOP_FEED, new ArrayList<>(feedPages));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        feedAdapter.addItems(Stream.of(feedPages)
-                .map(Page::getListing)
-                .flatMap(listing -> Stream.of(listing.getItems()))
-                .toList());
-
-        if (feedPages.isEmpty()) {
-            presenter.requestTopFeed(PageRequest.first());
-        }
     }
 
     @Override
