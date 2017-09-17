@@ -48,7 +48,7 @@ public class ImageDownloadingAndroidService extends JobIntentService {
         notificationBuilder = new NotificationCompat.Builder(this, BuildConfig.APPLICATION_ID);
         notificationBuilder.setContentTitle(getString(R.string.image_download))
                 .setContentText(getString(R.string.download_in_progress))
-                .setSmallIcon(R.drawable.ic_launcher_background);
+                .setSmallIcon(R.drawable.ic_download_image);
     }
 
     @Override
@@ -59,6 +59,11 @@ public class ImageDownloadingAndroidService extends JobIntentService {
         try {
             File file = createOutputImageFile(imageUrl);
             if (file != null) {
+                if (file.exists()) {
+                    logger.debug("Already downloaded!");
+                    stopNotification(Uri.fromFile(file));
+                    return;
+                }
                 startNotification();
                 Bitmap bitmap = picasso.load(imageUrl).get();
                 logger.debug("Bitmap '{}' loaded, saving...", imageUrl);
@@ -123,9 +128,11 @@ public class ImageDownloadingAndroidService extends JobIntentService {
     private void stopNotification(Uri imageUri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(imageUri, "image/jpeg");
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT);
         notificationBuilder.setContentText(getString(R.string.download_complete));
         notificationBuilder.setProgress(0, 0, false);
+        notificationBuilder.setAutoCancel(true);
         notificationBuilder.setContentIntent(contentIntent);
         notifyManager.notify(0, notificationBuilder.build());
     }
