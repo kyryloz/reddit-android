@@ -16,7 +16,9 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.activity.TopFeedActivity">
+        <activity
+            android:name=".ui.activity.TopFeedActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -25,7 +27,8 @@
 
         <activity
             android:name=".ui.activity.ImageViewerActivity"
-            android:label="@string/image_viewer_title"/>
+            android:label="@string/image_viewer_title"
+            android:parentActivityName=".ui.activity.TopFeedActivity"/>
 
         <service
             android:name=".core.androidservice.ImageDownloadingAndroidService"
