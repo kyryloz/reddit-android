@@ -61,7 +61,6 @@ public class ImageViewerActivity extends BasePresenterActivity<ImageViewerPresen
         imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
         Picasso.with(this)
                 .load(imageUrl)
-                .fit()
                 .into(imageView);
     }
 

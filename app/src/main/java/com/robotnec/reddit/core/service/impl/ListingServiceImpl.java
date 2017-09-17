@@ -3,9 +3,9 @@ package com.robotnec.reddit.core.service.impl;
 import android.support.annotation.NonNull;
 
 import com.annimon.stream.Objects;
+import com.robotnec.reddit.core.mvp.model.Result;
 import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.service.ListingService;
-import com.robotnec.reddit.core.mvp.model.Result;
 import com.robotnec.reddit.core.web.RedditApi;
 import com.robotnec.reddit.core.web.pagination.Page;
 import com.robotnec.reddit.core.web.pagination.PageImpl;

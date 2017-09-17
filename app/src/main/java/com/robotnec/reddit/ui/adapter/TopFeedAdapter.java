@@ -51,10 +51,11 @@ public class TopFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void setLoading(boolean loading) {
+    public void setLoading(boolean loading, RecyclerView feedRecycler) {
         if (loading) {
             items.add(progressBarItem);
             notifyItemInserted(items.size());
+            feedRecycler.scrollToPosition(items.size() - 1);
         } else {
             items.remove(progressBarItem);
             notifyItemRemoved(items.size());

@@ -15,6 +15,7 @@ import com.robotnec.reddit.core.web.dto.FeedItemDto;
 import com.robotnec.reddit.core.web.pagination.Page;
 import com.robotnec.reddit.core.web.pagination.PageRequest;
 import com.robotnec.reddit.ui.adapter.TopFeedAdapter;
+import com.robotnec.reddit.ui.support.Dividers;
 import com.robotnec.reddit.ui.support.LazyLoadingListener;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
         feedAdapter = new TopFeedAdapter(this, this::processFeedItemClick);
         feedRecycler.setAdapter(feedAdapter);
         feedRecycler.setLayoutManager(new LinearLayoutManager(this));
+        feedRecycler.addItemDecoration(Dividers.verticalLayoutDivider(this));
         feedRecycler.addOnScrollListener(new LazyLoadingListener() {
             @Override
             public void onLoadMore() {
@@ -92,7 +94,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
 
     @Override
     public void showProgress(boolean inProgress) {
-        feedAdapter.setLoading(inProgress);
+        feedAdapter.setLoading(inProgress, feedRecycler);
     }
 
     @Override

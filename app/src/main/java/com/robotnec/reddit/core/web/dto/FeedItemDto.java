@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-// TODO image is "self"
 public class FeedItemDto implements Parcelable {
 
     @SerializedName("title")
@@ -15,7 +14,7 @@ public class FeedItemDto implements Parcelable {
     private String id;
 
     @SerializedName("thumbnail")
-    private String imageThumbnail;
+    private ImageThumbnailDto imageThumbnail;
 
     @SerializedName("preview")
     private ImageDto imageFull;
@@ -34,7 +33,7 @@ public class FeedItemDto implements Parcelable {
     }
 
     public String getImageThumbnail() {
-        return imageThumbnail;
+        return imageThumbnail.getUrl();
     }
 
     public String getImageFull() {
@@ -66,7 +65,7 @@ public class FeedItemDto implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
         dest.writeString(this.id);
-        dest.writeString(this.imageThumbnail);
+        dest.writeParcelable(this.imageThumbnail, flags);
         dest.writeParcelable(this.imageFull, flags);
         dest.writeString(this.author);
         dest.writeInt(this.numberOfComments);
@@ -76,7 +75,7 @@ public class FeedItemDto implements Parcelable {
     private FeedItemDto(Parcel in) {
         this.title = in.readString();
         this.id = in.readString();
-        this.imageThumbnail = in.readString();
+        this.imageThumbnail = in.readParcelable(ImageDto.class.getClassLoader());
         this.imageFull = in.readParcelable(ImageDto.class.getClassLoader());
         this.author = in.readString();
         this.numberOfComments = in.readInt();

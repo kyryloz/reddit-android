@@ -47,4 +47,13 @@ public class Result<T> {
     public String getErrorMessage() {
         return errorMessage;
     }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "result=" + result +
+                ", inProgress=" + inProgress +
+                ", errorMessage='" + errorMessage + '\'' +
+                '}';
+    }
 }
