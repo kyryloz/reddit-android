@@ -1,11 +1,13 @@
 package com.robotnec.reddit.core.androidservice;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +15,6 @@ import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 
-import com.robotnec.reddit.BuildConfig;
 import com.robotnec.reddit.R;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ public class ImageDownloadingAndroidService extends JobIntentService {
 
     private static final String EXTRA_IMAGE_URL = "image_url";
     private static final String DIRECTORY_NAME = "Reddit Images";
+    private static final String NOTIFICATION_CHANNEL_ID = "reddit_notifications_channel";
 
     private final Logger logger = LoggerFactory.getLogger(ImageDownloadingAndroidService.class);
 
@@ -46,10 +48,19 @@ public class ImageDownloadingAndroidService extends JobIntentService {
         super.onCreate();
         picasso = Picasso.with(this);
         notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationBuilder = new NotificationCompat.Builder(this, BuildConfig.APPLICATION_ID);
+        notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         notificationBuilder.setContentTitle(getString(R.string.image_download))
                 .setContentText(getString(R.string.download_in_progress))
                 .setSmallIcon(R.drawable.ic_download_image);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            NotificationChannel channel = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(description);
+            notifyManager.createNotificationChannel(channel);
+        }
     }
 
     @Override

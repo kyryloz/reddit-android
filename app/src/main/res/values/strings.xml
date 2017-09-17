@@ -13,6 +13,8 @@
     <string name="download_in_progress">Download in progress</string>
     <string name="download_complete">Download complete</string>
     <string name="no_image_not_supported">Feed without images is not supported :,(</string>
+    <string name="channel_name">Reddit Notifications</string>
+    <string name="channel_description">Reddit notifications channel</string>
 
     <plurals name="comments_format">
         <item quantity="zero">No comments</item>
