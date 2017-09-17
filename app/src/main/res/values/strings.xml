@@ -9,6 +9,9 @@
     <string name="successfully_saved">Saved!</string>
     <string name="failed_to_load_image">Failed to load image</string>
     <string name="gif_not_supported">Gif is not supported :,(</string>
+    <string name="image_download">Reddit Image</string>
+    <string name="download_in_progress">Download in progress</string>
+    <string name="download_complete">Download complete</string>
 
     <plurals name="comments_format">
         <item quantity="zero">No comments</item>
