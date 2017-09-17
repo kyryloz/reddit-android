@@ -33,6 +33,16 @@
         <service
             android:name=".core.androidservice.ImageDownloadingAndroidService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <provider
+            android:name=".core.fileprovider.GenericFileProvider"
+            android:authorities="@string/generic_file_provider_authority"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

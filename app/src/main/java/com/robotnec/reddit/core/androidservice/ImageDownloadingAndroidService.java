@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 
 import com.robotnec.reddit.BuildConfig;
 import com.robotnec.reddit.R;
@@ -61,7 +62,7 @@ public class ImageDownloadingAndroidService extends JobIntentService {
             if (file != null) {
                 if (file.exists()) {
                     logger.debug("Already downloaded!");
-                    stopNotification(Uri.fromFile(file));
+                    stopNotification(createPublicUri(file));
                     return;
                 }
                 startNotification();
@@ -87,12 +88,11 @@ public class ImageDownloadingAndroidService extends JobIntentService {
 
         logger.debug("Bitmap successfully saved to: {}", file);
 
-        Uri contentUri = Uri.fromFile(file);
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        mediaScanIntent.setData(contentUri);
+        mediaScanIntent.setData(Uri.fromFile(file));
         sendBroadcast(mediaScanIntent);
 
-        stopNotification(contentUri);
+        stopNotification(createPublicUri(file));
     }
 
     @Nullable
@@ -128,11 +128,16 @@ public class ImageDownloadingAndroidService extends JobIntentService {
     private void stopNotification(Uri imageUri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(imageUri, "image/jpeg");
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         notificationBuilder.setContentText(getString(R.string.download_complete));
         notificationBuilder.setProgress(0, 0, false);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setContentIntent(contentIntent);
         notifyManager.notify(0, notificationBuilder.build());
+    }
+
+    private Uri createPublicUri(File file) {
+        return FileProvider.getUriForFile(this, getString(R.string.generic_file_provider_authority), file);
     }
 }
