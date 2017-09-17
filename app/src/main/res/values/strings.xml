@@ -6,6 +6,8 @@
     <string name="image_viewer_title">Image</string>
     <string name="access_storage_permission_rationale">Storage access is needed to save image</string>
     <string name="settings">Settings</string>
+    <string name="successfully_saved">Saved!</string>
+    <string name="failed_to_load_image">Failed to load image</string>
 
     <plurals name="comments_format">
         <item quantity="zero">No comments</item>

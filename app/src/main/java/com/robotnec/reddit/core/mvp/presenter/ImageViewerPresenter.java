@@ -1,12 +1,9 @@
 package com.robotnec.reddit.core.mvp.presenter;
 
 import com.robotnec.reddit.core.di.ApplicationComponent;
-import com.robotnec.reddit.core.mvp.model.TopFeedListing;
-import com.robotnec.reddit.core.mvp.view.TopFeedView;
-import com.robotnec.reddit.core.service.ListingService;
+import com.robotnec.reddit.core.mvp.view.ImageViewerView;
+import com.robotnec.reddit.core.service.ImageService;
 import com.robotnec.reddit.core.mvp.model.Result;
-import com.robotnec.reddit.core.web.pagination.Page;
-import com.robotnec.reddit.core.web.pagination.Pageable;
 
 import javax.inject.Inject;
 
@@ -14,14 +11,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class TopFeedPresenter extends Presenter<TopFeedView> {
+public class ImageViewerPresenter extends Presenter<ImageViewerView> {
 
     @Inject
-    ListingService listingService;
+    ImageService imageService;
 
     private final CompositeDisposable compositeDisposable;
 
-    public TopFeedPresenter(TopFeedView view) {
+    public ImageViewerPresenter(ImageViewerView view) {
         super(view);
         compositeDisposable = new CompositeDisposable();
     }
@@ -36,18 +33,18 @@ public class TopFeedPresenter extends Presenter<TopFeedView> {
         compositeDisposable.dispose();
     }
 
-    public void requestTopFeed(Pageable pageable) {
-        compositeDisposable.add(listingService.getTopFeedListing(pageable)
+    public void saveImageToExternalStorage(String imageUrl) {
+        compositeDisposable.add(imageService.saveImageToExternalStorage(imageUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::processTopFeedResult));
+                .subscribe(this::processImageSaveResult));
     }
 
-    private void processTopFeedResult(Result<Page<TopFeedListing>> result) {
+    private void processImageSaveResult(Result<Void> result) {
         view.showProgress(result.isInProgress());
         if (!result.isInProgress()) {
             if (result.isSuccess()) {
-                view.displayFeedPage(result.getResult());
+                view.showSaveImageSuccess();
             } else {
                 view.showError(result.getErrorMessage());
             }

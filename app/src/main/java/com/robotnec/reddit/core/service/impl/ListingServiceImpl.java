@@ -1,13 +1,12 @@
-package com.robotnec.reddit.core.service;
+package com.robotnec.reddit.core.service.impl;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.annimon.stream.Objects;
 import com.robotnec.reddit.core.mvp.model.TopFeedListing;
-import com.robotnec.reddit.core.support.Result;
+import com.robotnec.reddit.core.service.ListingService;
+import com.robotnec.reddit.core.mvp.model.Result;
 import com.robotnec.reddit.core.web.RedditApi;
-import com.robotnec.reddit.core.web.RedditClient;
 import com.robotnec.reddit.core.web.pagination.Page;
 import com.robotnec.reddit.core.web.pagination.PageImpl;
 import com.robotnec.reddit.core.web.pagination.Pageable;
@@ -17,18 +16,18 @@ import org.slf4j.LoggerFactory;
 
 import io.reactivex.Observable;
 
-public class FeedServiceImpl implements FeedService {
+public class ListingServiceImpl implements ListingService {
 
-    private final Logger logger = LoggerFactory.getLogger(FeedServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(ListingServiceImpl.class);
 
     private final RedditApi api;
 
-    public FeedServiceImpl(Context context) {
-        api = RedditClient.create(context).getApi();
+    public ListingServiceImpl(RedditApi api) {
+        this.api = api;
     }
 
     @Override
-    public Observable<Result<Page<TopFeedListing>>> getFeed(Pageable pageable) {
+    public Observable<Result<Page<TopFeedListing>>> getTopFeedListing(Pageable pageable) {
         Objects.requireNonNull(pageable);
         logger.debug("Request feed: {}", pageable);
 

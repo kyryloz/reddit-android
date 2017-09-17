@@ -1,17 +1,14 @@
-package com.robotnec.reddit.core.support;
+package com.robotnec.reddit.core.mvp.model;
 
 import android.support.annotation.NonNull;
 
-import com.annimon.stream.Objects;
-
-// TODO move to model
 public class Result<T> {
     private final T result;
     private final boolean inProgress;
     private final String errorMessage;
 
     public static <T> Result<T> success(T result) {
-        return new Result<>(Objects.requireNonNull(result), false, null);
+        return new Result<>(result, false, null);
     }
 
     public static <T> Result<T> failed(Throwable throwable) {
@@ -34,7 +31,7 @@ public class Result<T> {
     @NonNull
     public T getResult() {
         if (result == null) {
-            throw new NullPointerException("Trying to get result from failed request");
+            throw new NullPointerException("Result doesn't exist");
         }
         return result;
     }

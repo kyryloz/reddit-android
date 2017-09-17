@@ -1,8 +1,6 @@
 package com.robotnec.reddit.core.di.module;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
 
@@ -22,11 +20,5 @@ public class AndroidModule {
     @Provides
     Context provideApplicationContext() {
         return context;
-    }
-
-    @Singleton
-    @Provides
-    SharedPreferences provideSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 }
