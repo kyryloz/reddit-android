@@ -96,10 +96,7 @@ public class TopFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         itemViewHolder.thumbnail.setVisibility(TextUtils.isEmpty(thumbnail) ? View.GONE : View.VISIBLE);
 
         if (!TextUtils.isEmpty(thumbnail)) {
-            picasso.load(thumbnail)
-                    .centerCrop()
-                    .fit()
-                    .into(itemViewHolder.thumbnail);
+            picasso.load(thumbnail).into(itemViewHolder.thumbnail);
         }
 
         itemViewHolder.itemView.setOnClickListener(view -> {

@@ -21,7 +21,8 @@ public class NavigatorServiceImpl implements NavigatorService {
                 parent.startActivity(ImageViewerActivity.createIntent(parent,
                         feedItem.getImageFull().getUrl(), feedItem.getTitle()));
             }
+        } else {
+            throw new FeedItemTypeNotSupportedException(parent.getString(R.string.no_image_not_supported));
         }
-
     }
 }
