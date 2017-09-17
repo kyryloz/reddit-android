@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.web.deserializer.TopFeedDeserializer;
-import com.robotnec.reddit.core.web.interceptor.NetworkAvailabilityInterceptor;
+import com.robotnec.reddit.core.web.interceptor.ConnectivityInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +32,7 @@ public class RedditClient {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor(new NetworkAvailabilityInterceptor(context))
+                .addInterceptor(new ConnectivityInterceptor(context))
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

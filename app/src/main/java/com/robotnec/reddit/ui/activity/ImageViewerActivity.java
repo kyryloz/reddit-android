@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
@@ -35,9 +33,6 @@ public class ImageViewerActivity extends BasePresenterActivity<ImageViewerPresen
 
     @BindView(R.id.imageView)
     ImageView imageView;
-
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
 
     @BindView(R.id.saveButton)
     Button saveButton;
@@ -77,28 +72,17 @@ public class ImageViewerActivity extends BasePresenterActivity<ImageViewerPresen
         return R.layout.activity_image_viewer;
     }
 
+    @Override
+    public void showError(String message) {
+        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show();
+    }
+
     @OnClick(R.id.saveButton)
     void onSaveButtonClick() {
         Dexter.withActivity(this)
                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(createPermissionListener())
                 .check();
-    }
-
-    @Override
-    public void showProgress(boolean inProgress) {
-        progressBar.setVisibility(inProgress ? View.VISIBLE : View.INVISIBLE);
-        saveButton.setEnabled(!inProgress);
-    }
-
-    @Override
-    public void showError(String errorMessage) {
-        Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showSaveImageSuccess() {
-        Snackbar.make(rootView, R.string.successfully_saved, Snackbar.LENGTH_SHORT).show();
     }
 
     private PermissionListener createPermissionListener() {

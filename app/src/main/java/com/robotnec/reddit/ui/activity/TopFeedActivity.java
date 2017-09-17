@@ -13,7 +13,6 @@ import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.mvp.presenter.TopFeedPresenter;
 import com.robotnec.reddit.core.mvp.view.TopFeedView;
 import com.robotnec.reddit.core.web.dto.FeedItemDto;
-import com.robotnec.reddit.core.web.dto.ImageDto;
 import com.robotnec.reddit.core.web.pagination.Page;
 import com.robotnec.reddit.core.web.pagination.PageRequest;
 import com.robotnec.reddit.ui.adapter.TopFeedAdapter;
@@ -103,19 +102,12 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     }
 
     @Override
-    public void showError(String errorMessage) {
-        Snackbar.make(feedRecycler, errorMessage, Snackbar.LENGTH_LONG).show();
+    public void showError(String message) {
+        Snackbar.make(feedRecycler, message, Snackbar.LENGTH_SHORT).show();
     }
 
     private void processFeedItemClick(FeedItemDto feedItem) {
-        ImageDto image = feedItem.getImageFull();
-        if (image != null) {
-            if (image.isGif()) {
-                Snackbar.make(feedRecycler, R.string.gif_not_supported, Snackbar.LENGTH_LONG).show();
-            } else {
-                startActivity(ImageViewerActivity.createIntent(this, image.getUrl(), feedItem.getTitle()));
-            }
-        }
+        presenter.openFeedItem(this, feedItem);
     }
 
     private Optional<Page<TopFeedListing>> getLastLoadedPage() {

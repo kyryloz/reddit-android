@@ -128,8 +128,7 @@ public class ImageDownloadingAndroidService extends JobIntentService {
     private void stopNotification(Uri imageUri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(imageUri, "image/jpeg");
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         notificationBuilder.setContentText(getString(R.string.download_complete));
         notificationBuilder.setProgress(0, 0, false);
         notificationBuilder.setAutoCancel(true);

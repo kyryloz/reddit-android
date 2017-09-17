@@ -1,6 +1,7 @@
 package com.robotnec.reddit.core.mvp.presenter;
 
 import com.robotnec.reddit.core.di.ApplicationComponent;
+import com.robotnec.reddit.core.exception.NoConnectivityException;
 import com.robotnec.reddit.core.mvp.view.ImageViewerView;
 import com.robotnec.reddit.core.service.ImageService;
 
@@ -25,6 +26,10 @@ public class ImageViewerPresenter extends Presenter<ImageViewerView> {
     }
 
     public void saveImageToExternalStorage(String imageUrl) {
-        imageService.saveImageToExternalStorage(imageUrl);
+        try {
+            imageService.saveImageToExternalStorage(imageUrl);
+        } catch (NoConnectivityException e) {
+            view.showError(e.getMessage());
+        }
     }
 }

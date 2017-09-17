@@ -15,15 +15,6 @@
         android:layout_above="@+id/saveButton"
         tools:ignore="ContentDescription"/>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:indeterminateOnly="true"
-        android:visibility="invisible"/>
-
     <Button
         android:id="@+id/saveButton"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"

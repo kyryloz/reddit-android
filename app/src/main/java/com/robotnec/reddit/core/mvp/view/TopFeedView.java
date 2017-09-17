@@ -8,5 +8,5 @@ public interface TopFeedView extends View {
 
     void showProgress(boolean inProgress);
 
-    void showError(String errorMessage);
+    void showError(String message);
 }

@@ -37,7 +37,7 @@ public class TopFeedListing implements Listing<FeedItemDto> {
         dest.writeString(this.after);
     }
 
-    protected TopFeedListing(Parcel in) {
+    private TopFeedListing(Parcel in) {
         this.feedItems = in.createTypedArrayList(FeedItemDto.CREATOR);
         this.after = in.readString();
     }

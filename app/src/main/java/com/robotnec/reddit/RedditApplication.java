@@ -9,13 +9,13 @@ import com.robotnec.reddit.core.di.module.ApiModule;
 import com.robotnec.reddit.core.di.module.ServiceModule;
 
 public class RedditApplication extends Application {
+
     private ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        applicationComponent = DaggerApplicationComponent
-                .builder()
+        applicationComponent = DaggerApplicationComponent.builder()
                 .androidModule(new AndroidModule(this))
                 .serviceModule(new ServiceModule())
                 .apiModule(new ApiModule())

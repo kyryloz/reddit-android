@@ -2,8 +2,11 @@ package com.robotnec.reddit.core.service.impl;
 
 import android.content.Context;
 
+import com.robotnec.reddit.R;
 import com.robotnec.reddit.core.androidservice.ImageDownloadingAndroidService;
+import com.robotnec.reddit.core.exception.NoConnectivityException;
 import com.robotnec.reddit.core.service.ImageService;
+import com.robotnec.reddit.core.util.ConnectivityChecker;
 
 public class ImageServiceImpl implements ImageService {
 
@@ -14,7 +17,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void saveImageToExternalStorage(String imageUrl) {
-        ImageDownloadingAndroidService.downloadImage(context, imageUrl);
+    public void saveImageToExternalStorage(String imageUrl) throws NoConnectivityException {
+        if (ConnectivityChecker.isNetworkAvailable(context)) {
+            ImageDownloadingAndroidService.downloadImage(context, imageUrl);
+        } else {
+            throw new NoConnectivityException(context.getString(R.string.no_connectivity_message));
+        }
     }
 }
