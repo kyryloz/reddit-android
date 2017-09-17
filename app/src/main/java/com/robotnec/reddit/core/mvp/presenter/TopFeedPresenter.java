@@ -8,9 +8,6 @@ import com.robotnec.reddit.core.service.ListingService;
 import com.robotnec.reddit.core.web.pagination.Page;
 import com.robotnec.reddit.core.web.pagination.Pageable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,8 +15,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class TopFeedPresenter extends Presenter<TopFeedView> {
-
-    private final Logger logger = LoggerFactory.getLogger(TopFeedPresenter.class);
 
     @Inject
     ListingService listingService;
@@ -42,7 +37,6 @@ public class TopFeedPresenter extends Presenter<TopFeedView> {
     }
 
     public void requestTopFeed(Pageable pageable) {
-        logger.debug("Request feed: {}", pageable);
         compositeDisposable.add(listingService.getTopFeedListing(pageable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

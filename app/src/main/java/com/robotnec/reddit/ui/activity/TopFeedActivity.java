@@ -32,6 +32,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
 
     private TopFeedAdapter feedAdapter;
     private List<Page<TopFeedListing>> feedPages;
+    private LazyLoadingListener lazyLoadingListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
         feedRecycler.setAdapter(feedAdapter);
         feedRecycler.setLayoutManager(new LinearLayoutManager(this));
         feedRecycler.addItemDecoration(Dividers.verticalLayoutDivider(this));
-        feedRecycler.addOnScrollListener(new LazyLoadingListener() {
+        lazyLoadingListener = new LazyLoadingListener() {
             @Override
             public void onLoadMore() {
                 getLastLoadedPage()
@@ -49,7 +50,8 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
                         .map(Page::nextPageable)
                         .ifPresent(presenter::requestTopFeed);
             }
-        });
+        };
+        feedRecycler.addOnScrollListener(lazyLoadingListener);
 
         feedPages = Optional.ofNullable(savedInstanceState)
                 .map(bundle -> bundle.<Page<TopFeedListing>>getParcelableArrayList(KEY_TOP_FEED))
@@ -87,6 +89,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
 
     @Override
     public void displayFeedPage(Page<TopFeedListing> feedPage) {
+        lazyLoadingListener.setLoading(false);
         List<FeedItemDto> items = feedPage.getListing().getItems();
         feedAdapter.addItems(items);
         feedPages.add(feedPage);
