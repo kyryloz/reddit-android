@@ -1,9 +1,11 @@
 package com.robotnec.reddit.core.mvp.presenter;
 
 import com.robotnec.reddit.core.di.ApplicationComponent;
+import com.robotnec.reddit.core.mvp.model.Result;
 import com.robotnec.reddit.core.mvp.view.ImageViewerView;
 import com.robotnec.reddit.core.service.ImageService;
-import com.robotnec.reddit.core.mvp.model.Result;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -40,7 +42,7 @@ public class ImageViewerPresenter extends Presenter<ImageViewerView> {
                 .subscribe(this::processImageSaveResult));
     }
 
-    private void processImageSaveResult(Result<Void> result) {
+    private void processImageSaveResult(Result<File> result) {
         view.showProgress(result.isInProgress());
         if (!result.isInProgress()) {
             if (result.isSuccess()) {

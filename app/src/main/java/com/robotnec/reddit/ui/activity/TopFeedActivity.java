@@ -1,6 +1,7 @@
 package com.robotnec.reddit.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,7 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     private LazyLoadingListener lazyLoadingListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         feedAdapter = new TopFeedAdapter(this, this::processFeedItemClick);
@@ -108,10 +109,12 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
 
     private void processFeedItemClick(FeedItemDto feedItem) {
         ImageDto image = feedItem.getImageFull();
-        if (image.isGif()) {
-            Snackbar.make(feedRecycler, R.string.gif_not_supported, Snackbar.LENGTH_LONG).show();
-        } else {
-            startActivity(ImageViewerActivity.createIntent(this, image.getUrl(), feedItem.getTitle()));
+        if (image != null) {
+            if (image.isGif()) {
+                Snackbar.make(feedRecycler, R.string.gif_not_supported, Snackbar.LENGTH_LONG).show();
+            } else {
+                startActivity(ImageViewerActivity.createIntent(this, image.getUrl(), feedItem.getTitle()));
+            }
         }
     }
 

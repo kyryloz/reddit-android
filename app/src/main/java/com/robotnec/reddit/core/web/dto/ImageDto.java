@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class ImageDto implements Parcelable {
 
     private final String url;
-    private boolean gif;
+    private final boolean gif;
 
     public ImageDto(String url, boolean gif) {
         this.url = url;

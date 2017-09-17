@@ -2,13 +2,15 @@ package com.robotnec.reddit.core.mvp.model;
 
 import android.support.annotation.NonNull;
 
+import com.annimon.stream.Objects;
+
 public class Result<T> {
     private final T result;
     private final boolean inProgress;
     private final String errorMessage;
 
     public static <T> Result<T> success(T result) {
-        return new Result<>(result, false, null);
+        return new Result<>(Objects.requireNonNull(result), false, null);
     }
 
     public static <T> Result<T> failed(Throwable throwable) {

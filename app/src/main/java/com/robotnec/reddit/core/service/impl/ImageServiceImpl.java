@@ -34,7 +34,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Observable<Result<Void>> saveImageToExternalStorage(String imageUrl) {
+    public Observable<Result<File>> saveImageToExternalStorage(String imageUrl) {
         return Observable.create(emitter -> {
             logger.debug("Loading image '{}'...", imageUrl);
 
@@ -54,9 +54,9 @@ public class ImageServiceImpl implements ImageService {
         });
     }
 
-    private void saveToFile(Bitmap bitmap, File file, ObservableEmitter<Result<Void>> emitter) {
+    private void saveToFile(Bitmap bitmap, File file, ObservableEmitter<Result<File>> emitter) {
         try (FileOutputStream outStream = new FileOutputStream(file)) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
             outStream.flush();
         } catch (IOException e) {
             logger.error("Failed to save bitmap to '{}'", file, e);
@@ -68,12 +68,12 @@ public class ImageServiceImpl implements ImageService {
 
         MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()}, null,
                 (path, uri) -> {
-                    emitter.onNext(Result.success(null));
+                    emitter.onNext(Result.success(file));
                     emitter.onComplete();
                 });
     }
 
-    private Result<Void> createFailedResult() {
+    private Result<File> createFailedResult() {
         String failedMessage = context.getString(R.string.failed_to_load_image);
         return Result.failed(new ImageLoadingException(failedMessage));
     }
