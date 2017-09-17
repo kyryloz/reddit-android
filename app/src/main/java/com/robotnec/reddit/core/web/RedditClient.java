@@ -2,7 +2,6 @@ package com.robotnec.reddit.core.web;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.web.deserializer.TopFeedDeserializer;
@@ -17,9 +16,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RedditClient {
     private static final String BASE_URL = "https://api.reddit.com";
-    private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(TopFeedListing.class, new TopFeedDeserializer())
-            .create();
 
     private final RedditApi mApi;
 
@@ -38,7 +34,9 @@ public class RedditClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(GSON))
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                        .registerTypeAdapter(TopFeedListing.class, new TopFeedDeserializer())
+                        .create()))
                 .client(httpClient)
                 .build();
 

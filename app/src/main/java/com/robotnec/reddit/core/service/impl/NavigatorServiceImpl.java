@@ -18,8 +18,8 @@ public class NavigatorServiceImpl implements NavigatorService {
             if (image.isGif()) {
                 throw new FeedItemTypeNotSupportedException(parent.getString(R.string.gif_not_supported));
             } else {
-                parent.startActivity(ImageViewerActivity.createIntent(parent,
-                        feedItem.getImageFull().getUrl(), feedItem.getTitle()));
+                parent.startActivity(ImageViewerActivity.createIntent(
+                        parent, image.getUrl(), feedItem.getTitle()));
             }
         } else {
             throw new FeedItemTypeNotSupportedException(parent.getString(R.string.no_image_not_supported));

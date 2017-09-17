@@ -7,6 +7,4 @@ public interface TopFeedView extends View {
     void displayFeedPage(Page<TopFeedListing> feedPage);
 
     void showProgress(boolean inProgress);
-
-    void showError(String message);
 }
