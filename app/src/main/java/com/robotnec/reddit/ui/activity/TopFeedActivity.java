@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -13,6 +12,7 @@ import com.robotnec.reddit.core.mvp.model.TopFeedListing;
 import com.robotnec.reddit.core.mvp.presenter.TopFeedPresenter;
 import com.robotnec.reddit.core.mvp.view.TopFeedView;
 import com.robotnec.reddit.core.web.dto.FeedItemDto;
+import com.robotnec.reddit.core.web.dto.ImageDto;
 import com.robotnec.reddit.core.web.pagination.Page;
 import com.robotnec.reddit.core.web.pagination.PageRequest;
 import com.robotnec.reddit.ui.adapter.TopFeedAdapter;
@@ -107,9 +107,11 @@ public class TopFeedActivity extends BasePresenterActivity<TopFeedPresenter, Top
     }
 
     private void processFeedItemClick(FeedItemDto feedItem) {
-        String imageUrl = feedItem.getImageFull();
-        if (!TextUtils.isEmpty(imageUrl)) {
-            startActivity(ImageViewerActivity.createIntent(this, imageUrl, feedItem.getTitle()));
+        ImageDto image = feedItem.getImageFull();
+        if (image.isGif()) {
+            Snackbar.make(feedRecycler, R.string.gif_not_supported, Snackbar.LENGTH_LONG).show();
+        } else {
+            startActivity(ImageViewerActivity.createIntent(this, image.getUrl(), feedItem.getTitle()));
         }
     }
 

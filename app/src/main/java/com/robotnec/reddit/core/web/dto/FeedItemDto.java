@@ -19,7 +19,6 @@ public class FeedItemDto implements Parcelable {
     private ImageThumbnailDto imageThumbnail;
 
     @SerializedName("preview")
-    @Nullable
     private ImageDto imageFull;
 
     @SerializedName("author")
@@ -39,8 +38,8 @@ public class FeedItemDto implements Parcelable {
         return imageThumbnail != null ? imageThumbnail.getUrl() : null;
     }
 
-    public String getImageFull() {
-        return imageFull != null ? imageFull.getUrl() : null;
+    public ImageDto getImageFull() {
+        return imageFull;
     }
 
     public String getId() {
@@ -78,7 +77,7 @@ public class FeedItemDto implements Parcelable {
     private FeedItemDto(Parcel in) {
         this.title = in.readString();
         this.id = in.readString();
-        this.imageThumbnail = in.readParcelable(ImageDto.class.getClassLoader());
+        this.imageThumbnail = in.readParcelable(ImageThumbnailDto.class.getClassLoader());
         this.imageFull = in.readParcelable(ImageDto.class.getClassLoader());
         this.author = in.readString();
         this.numberOfComments = in.readInt();

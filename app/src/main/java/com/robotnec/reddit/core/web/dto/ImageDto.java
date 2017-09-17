@@ -6,13 +6,19 @@ import android.os.Parcelable;
 public class ImageDto implements Parcelable {
 
     private final String url;
+    private boolean gif;
 
-    public ImageDto(String url) {
+    public ImageDto(String url, boolean gif) {
         this.url = url;
+        this.gif = gif;
     }
 
-    String getUrl() {
+    public String getUrl() {
         return url;
+    }
+
+    public boolean isGif() {
+        return gif;
     }
 
     @Override
@@ -23,13 +29,15 @@ public class ImageDto implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.url);
+        dest.writeByte(this.gif ? (byte) 1 : (byte) 0);
     }
 
     private ImageDto(Parcel in) {
         this.url = in.readString();
+        this.gif = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<ImageDto> CREATOR = new Parcelable.Creator<ImageDto>() {
+    public static final Creator<ImageDto> CREATOR = new Creator<ImageDto>() {
         @Override
         public ImageDto createFromParcel(Parcel source) {
             return new ImageDto(source);
